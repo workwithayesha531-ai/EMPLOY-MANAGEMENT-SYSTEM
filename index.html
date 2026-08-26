@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Employee Management System</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ================= LOGIN ================= -->
+  <section id="loginScreen" class="login-screen">
+
+    <div class="login-card">
+
+      <div class="brand-mark">S</div>
+
+      <h1>Stratos EMS</h1>
+      <p>Employee Management System</p>
+
+      <form id="loginForm">
+
+        <label>Email</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="admin@ems.com"
+          required
+        >
+
+        <label>Password</label>
+
+        <div class="password-wrap">
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="1234"
+            required
+          >
+
+          <button type="button" id="togglePassword">
+            Show
+          </button>
+        </div>
+
+        <p id="loginError" class="form-error"></p>
+
+        <button type="submit" class="primary-btn full">
+          Login
+        </button>
+
+      </form>
+
+      <small class="demo-login">
+        Demo: admin@ems.com / 1234
+      </small>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= MAIN APP ================= -->
+
+  <div id="app" class="app hidden">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+      <div class="brand">
+
+        <div class="brand-mark small">
+          S
+        </div>
+
+        <div>
+          <strong>Stratos EMS</strong>
+          <small>Management System</small>
+        </div>
+
+      </div>
+
+
+      <div class="menu-title">
+        MAIN MENU
+      </div>
+
+
+      <nav class="nav">
+
+        <button
+          class="nav-item"
+          data-page="dashboard"
+        >
+          <span>▦</span>
+          Dashboard
+        </button>
+
+
+        <button
+          class="nav-item active"
+          data-page="employees"
+        >
+          <span>♙</span>
+          Employees
+          <b id="employeeBadge">0</b>
+        </button>
+
+
+        <button
+          class="nav-item"
+          data-page="departments"
+        >
+          <span>▤</span>
+          Departments
+          <b id="departmentBadge">0</b>
+        </button>
+
+
+        <button class="nav-item disabled">
+          <span>☑</span>
+          Attendance
+        </button>
+
+
+        <button class="nav-item disabled">
+          <span>▭</span>
+          Payroll
+        </button>
+
+
+        <button class="nav-item disabled">
+          <span>▣</span>
+          Leave
+          <b class="pending">2 PENDING</b>
+        </button>
+
+
+        <button class="nav-item disabled">
+          <span>↗</span>
+          Performance
+        </button>
+
+
+        <button class="nav-item disabled">
+          <span>▥</span>
+          Reports
+        </button>
+
+
+        <button class="nav-item disabled">
+          <span>□</span>
+          Calendar
+        </button>
+
+
+        <button class="nav-item disabled">
+          <span>▢</span>
+          Messages
+          <b>2</b>
+        </button>
+
+      </nav>
+
+
+      <!-- SIDEBAR USER -->
+
+      <div class="sidebar-user">
+
+        <div class="avatar">
+          A
+        </div>
+
+        <div>
+          <strong>Admin</strong>
+          <small>Administrator</small>
+        </div>
+
+        <button id="logoutBtn">
+          ↪
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+      <!-- TOP BAR -->
+
+      <header class="topbar">
+
+        <div>
+
+          <h1 id="pageTitle">
+            Employees
+          </h1>
+
+          <p id="pageSubtitle">
+            View and manage all employees
+          </p>
+
+        </div>
+
+
+        <div class="top-actions">
+
+          <span class="top-icon">
+            ⌕
+          </span>
+
+          <span class="top-icon">
+            ♧
+          </span>
+
+          <div class="user-circle">
+            A
+          </div>
+
+          <strong>Admin</strong>
+
+        </div>
+
+      </header>
+
+
+      <!-- ================= DASHBOARD ================= -->
+
+      <section
+        id="dashboardPage"
+        class="page hidden"
+      >
+
+        <div class="page-heading">
+
+          <div>
+
+            <h2>
+              Dashboard
+            </h2>
+
+            <p>
+              Overview of your employee management system
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon purple">
+              ♙
+            </div>
+
+            <div>
+
+              <span>
+                Total Employees
+              </span>
+
+              <strong id="totalEmployees">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon green">
+              ✓
+            </div>
+
+            <div>
+
+              <span>
+                Active Employees
+              </span>
+
+              <strong id="activeEmployees">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon red">
+              !
+            </div>
+
+            <div>
+
+              <span>
+                Inactive Employees
+              </span>
+
+              <strong id="inactiveEmployees">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon blue">
+              ▤
+            </div>
+
+            <div>
+
+              <span>
+                Total Departments
+              </span>
+
+              <strong id="totalDepartments">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-panel">
+
+          <div>
+
+            <h3>
+              Quick Actions
+            </h3>
+
+            <p>
+              Add employees or manage departments.
+            </p>
+
+          </div>
+
+          <button
+            class="primary-btn"
+            id="dashboardAddBtn"
+          >
+            + Add Employee
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= EMPLOYEES ================= -->
+
+      <section
+        id="employeesPage"
+        class="page"
+      >
+
+        <div class="page-heading">
+
+          <div>
+
+            <h2>
+              Employees
+            </h2>
+
+            <p>
+              View and manage all employees
+            </p>
+
+          </div>
+
+
+          <button
+            class="primary-btn"
+            id="addEmployeeBtn"
+          >
+            + Add Employee
+          </button>
+
+        </div>
+
+
+        <div class="table-card">
+
+
+          <div class="toolbar">
+
+            <div class="record-info">
+
+              Total
+              <strong id="employeeCountText">
+                0
+              </strong>
+              employees
+
+            </div>
+
+
+            <input
+              id="searchInput"
+              class="search-input"
+              type="search"
+              placeholder="Search employee..."
+            >
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>ID</th>
+                  <th>EMPLOYEE</th>
+                  <th>PHONE</th>
+                  <th>DEPARTMENT</th>
+                  <th>POSITION</th>
+                  <th>SALARY</th>
+                  <th>JOINING DATE</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="employeeTableBody">
+              </tbody>
+
+            </table>
+
+          </div>
+
+
+          <div
+            id="emptyEmployees"
+            class="empty-state hidden"
+          >
+            No employees found.
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= DEPARTMENTS ================= -->
+
+      <section
+        id="departmentsPage"
+        class="page hidden"
+      >
+
+        <div class="page-heading">
+
+          <div>
+
+            <h2>
+              Departments
+            </h2>
+
+            <p>
+              Departments calculated from employee data
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="departmentGrid"
+          class="department-grid"
+        >
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- ================= ADD / EDIT MODAL ================= -->
+
+  <div
+    id="employeeModal"
+    class="modal hidden"
+  >
+
+    <div class="modal-card">
+
+
+      <div class="modal-header">
+
+        <div>
+
+          <h2 id="employeeModalTitle">
+            Add Employee
+          </h2>
+
+          <p>
+            Enter complete employee information.
+          </p>
+
+        </div>
+
+
+        <button
+          class="close-btn"
+          data-close="employeeModal"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        id="employeeForm"
+        class="employee-form"
+      >
+
+        <input
+          type="hidden"
+          id="editIndex"
+        >
+
+
+        <div class="form-grid">
+
+
+          <div>
+
+            <label>
+              Employee ID *
+            </label>
+
+            <input
+              id="employeeId"
+              type="text"
+              placeholder="EMP001"
+            >
+
+            <small
+              id="employeeIdError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Full Name *
+            </label>
+
+            <input
+              id="fullName"
+              type="text"
+              placeholder="John Cooper"
+            >
+
+            <small
+              id="fullNameError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Email *
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="john@example.com"
+            >
+
+            <small
+              id="emailError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Phone *
+            </label>
+
+            <input
+              id="phone"
+              type="text"
+              placeholder="+92 300 1234567"
+            >
+
+            <small
+              id="phoneError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Department *
+            </label>
+
+            <input
+              id="department"
+              type="text"
+              list="departmentOptions"
+              placeholder="Finance"
+            >
+
+            <datalist id="departmentOptions">
+            </datalist>
+
+            <small
+              id="departmentError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Position *
+            </label>
+
+            <input
+              id="position"
+              type="text"
+              placeholder="Accountant"
+            >
+
+            <small
+              id="positionError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Salary *
+            </label>
+
+            <input
+              id="salary"
+              type="number"
+              placeholder="65000"
+            >
+
+            <small
+              id="salaryError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Joining Date *
+            </label>
+
+            <input
+              id="joiningDate"
+              type="date"
+            >
+
+            <small
+              id="joiningDateError"
+              class="field-error"
+            ></small>
+
+          </div>
+
+
+          <div>
+
+            <label>
+              Status *
+            </label>
+
+            <select id="status">
+
+              <option value="Active">
+                Active
+              </option>
+
+              <option value="Inactive">
+                Inactive
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="secondary-btn"
+            data-close="employeeModal"
+          >
+            Cancel
+          </button>
+
+
+          <button
+            type="submit"
+            class="primary-btn"
+          >
+            Save Employee
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= VIEW MODAL ================= -->
+
+  <div
+    id="viewModal"
+    class="modal hidden"
+  >
+
+    <div class="modal-card small-modal">
+
+
+      <div class="modal-header">
+
+        <div>
+
+          <h2>
+            Employee Details
+          </h2>
+
+          <p>
+            Complete employee information
+          </p>
+
+        </div>
+
+
+        <button
+          class="close-btn"
+          data-close="viewModal"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div
+        id="viewDetails"
+        class="details-grid"
+      >
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- TOAST -->
+
+  <div id="toast" class="toast">
+  </div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
