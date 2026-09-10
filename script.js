@@ -1,60 +1,69 @@
-// ================= EMPLOYEE MANAGEMENT SYSTEM =================
+/* =========================================================
+   EMPLOYEE MANAGEMENT SYSTEM
+========================================================= */
 
-// ---------- DEFAULT EMPLOYEES ----------
+
+/* ================= EMPLOYEE DATA ================= */
 
 let employees = [
     {
-        id: "EMP001",
-        name: "John Cooper",
-        email: "john@example.com",
-        phone: "+92 300 1234567",
-        department: "Finance",
-        position: "Accountant",
-        salary: 65000,
-        joiningDate: "2024-01-15",
-        status: "Active"
-    },
-
-    {
-        id: "EMP002",
-        name: "Sarah Khan",
-        email: "sarah@example.com",
-        phone: "+92 301 7654321",
-        department: "Human Resources",
-        position: "HR Manager",
-        salary: 85000,
-        joiningDate: "2023-08-20",
-        status: "Active"
-    },
-
-    {
-        id: "EMP003",
-        name: "Ali Ahmed",
-        email: "ali@example.com",
-        phone: "+92 302 4567890",
-        department: "IT",
+        id: 1,
+        firstName: "Ayesha",
+        lastName: "Ali",
+        email: "ayesha@ems.com",
+        phone: "03001234567",
+        department: "Engineering",
         position: "Frontend Developer",
-        salary: 90000,
-        joiningDate: "2024-03-10",
-        status: "Active"
+        salary: 85000,
+        status: "Active",
+        joiningDate: "2025-01-15",
+        performance: 92
     },
-
     {
-        id: "EMP004",
-        name: "Maria Smith",
-        email: "maria@example.com",
-        phone: "+92 303 9876543",
+        id: 2,
+        firstName: "Sara",
+        lastName: "Khan",
+        email: "sara@ems.com",
+        phone: "03011234567",
+        department: "Design",
+        position: "UI/UX Designer",
+        salary: 75000,
+        status: "Active",
+        joiningDate: "2025-03-10",
+        performance: 86
+    },
+    {
+        id: 3,
+        firstName: "Ali",
+        lastName: "Ahmed",
+        email: "ali@ems.com",
+        phone: "03021234567",
         department: "Marketing",
         position: "Marketing Executive",
+        salary: 65000,
+        status: "Active",
+        joiningDate: "2024-11-20",
+        performance: 78
+    },
+    {
+        id: 4,
+        firstName: "Hamza",
+        lastName: "Raza",
+        email: "hamza@ems.com",
+        phone: "03031234567",
+        department: "Finance",
+        position: "Accountant",
         salary: 70000,
-        joiningDate: "2022-11-05",
-        status: "Inactive"
+        status: "Inactive",
+        joiningDate: "2024-08-12",
+        performance: 69
     }
 ];
 
 
-// ---------- ELEMENTS ----------
+/* ================= DOM ELEMENTS ================= */
 
+const landingPage = document.getElementById("landingPage");
 const loginScreen = document.getElementById("loginScreen");
 const app = document.getElementById("app");
 
@@ -62,89 +71,135 @@ const loginForm = document.getElementById("loginForm");
 const loginEmail = document.getElementById("loginEmail");
 const loginPassword = document.getElementById("loginPassword");
 const loginError = document.getElementById("loginError");
-
 const togglePassword = document.getElementById("togglePassword");
+
 const logoutBtn = document.getElementById("logoutBtn");
 
-const employeeTableBody =
-    document.getElementById("employeeTableBody");
+const pageTitle = document.getElementById("pageTitle");
+const currentDate = document.getElementById("currentDate");
 
-const searchInput =
-    document.getElementById("searchInput");
+const navItems = document.querySelectorAll(".nav-item[data-page]");
 
-const employeeModal =
-    document.getElementById("employeeModal");
+const dashboardPage = document.getElementById("dashboardPage");
+const employeesPage = document.getElementById("employeesPage");
+const departmentsPage = document.getElementById("departmentsPage");
 
-const viewModal =
-    document.getElementById("viewModal");
+const addEmployeeBtn = document.getElementById("addEmployeeBtn");
+const employeeQuickAddBtn = document.getElementById("employeeQuickAddBtn");
 
-const employeeForm =
-    document.getElementById("employeeForm");
+const employeeSearch = document.getElementById("employeeSearch");
+const departmentFilter = document.getElementById("departmentFilter");
+const statusFilter = document.getElementById("statusFilter");
 
-const employeeModalTitle =
-    document.getElementById("employeeModalTitle");
+const employeeTableBody = document.getElementById("employeeTableBody");
+const emptyEmployees = document.getElementById("emptyEmployees");
 
-const editIndex =
-    document.getElementById("editIndex");
+const employeeModal = document.getElementById("employeeModal");
+const closeEmployeeModal = document.getElementById("closeEmployeeModal");
+const cancelEmployeeModal = document.getElementById("cancelEmployeeModal");
 
-const toast =
-    document.getElementById("toast");
+const employeeForm = document.getElementById("employeeForm");
+const modalTitle = document.getElementById("modalTitle");
+
+const employeeId = document.getElementById("employeeId");
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const employeeEmail = document.getElementById("employeeEmail");
+const employeePhone = document.getElementById("employeePhone");
+const employeeDepartment = document.getElementById("employeeDepartment");
+const employeePosition = document.getElementById("employeePosition");
+const employeeSalary = document.getElementById("employeeSalary");
+const employeeStatus = document.getElementById("employeeStatus");
+const employeeJoiningDate = document.getElementById("employeeJoiningDate");
+
+const viewEmployeeModal = document.getElementById("viewEmployeeModal");
+const closeViewModal = document.getElementById("closeViewModal");
+const employeeDetails = document.getElementById("employeeDetails");
+
+const deleteModal = document.getElementById("deleteModal");
+const cancelDelete = document.getElementById("cancelDelete");
+const confirmDelete = document.getElementById("confirmDelete");
+
+const toast = document.getElementById("toast");
+
+const dashboardThemeToggle =
+    document.getElementById("dashboardThemeToggle");
+
+const employeeThemeToggle =
+    document.getElementById("employeeThemeToggle");
+
+const employeeTotalSummary =
+    document.getElementById("employeeTotalSummary");
+
+const employeeActiveSummary =
+    document.getElementById("employeeActiveSummary");
+
+const employeeInactiveSummary =
+    document.getElementById("employeeInactiveSummary");
+
+const employeeDepartmentSummary =
+    document.getElementById("employeeDepartmentSummary");
+
+let employeeToDelete = null;
+
+let workforceChart = null;
+let departmentChart = null;
+let payrollChart = null;
+let performanceChart = null;
 
 
-// ---------- FORM INPUTS ----------
+/* ================= LANDING / LOGIN ================= */
 
-const employeeId =
-    document.getElementById("employeeId");
+function showLoginScreen() {
 
-const fullName =
-    document.getElementById("fullName");
+    landingPage.classList.add("hidden");
+    app.classList.add("hidden");
+    loginScreen.classList.remove("hidden");
 
-const email =
-    document.getElementById("email");
+    loginError.textContent = "";
 
-const phone =
-    document.getElementById("phone");
-
-const department =
-    document.getElementById("department");
-
-const position =
-    document.getElementById("position");
-
-const salary =
-    document.getElementById("salary");
-
-const joiningDate =
-    document.getElementById("joiningDate");
-
-const status =
-    document.getElementById("status");
+}
 
 
-// ---------- LOGIN ----------
+function showLandingPage() {
 
-loginForm.addEventListener("submit", function (event) {
+    landingPage.classList.remove("hidden");
+    loginScreen.classList.add("hidden");
+    app.classList.add("hidden");
 
-    event.preventDefault();
+}
 
-    const emailValue = loginEmail.value.trim();
-    const passwordValue = loginPassword.value.trim();
+
+function showApp() {
+
+    landingPage.classList.add("hidden");
+    loginScreen.classList.add("hidden");
+    app.classList.remove("hidden");
+
+}
+
+
+/* ================= LOGIN ================= */
+
+loginForm.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value.trim();
 
     if (
-        emailValue === "admin@ems.com" &&
-        passwordValue === "1234"
+        email === "admin@ems.com" &&
+        password === "1234"
     ) {
-
-        loginScreen.classList.add("hidden");
-        app.classList.remove("hidden");
 
         loginError.textContent = "";
 
-        showToast("Login successful!");
+        showApp();
 
-        renderEmployees();
-        updateDashboard();
-        renderDepartments();
+        showPage("dashboard");
+
+        showToast("Login successful!");
 
     } else {
 
@@ -156,31 +211,30 @@ loginForm.addEventListener("submit", function (event) {
 });
 
 
-// ---------- SHOW / HIDE PASSWORD ----------
+/* ================= PASSWORD ================= */
 
 togglePassword.addEventListener("click", function () {
 
     if (loginPassword.type === "password") {
 
         loginPassword.type = "text";
-        togglePassword.textContent = "Hide";
+        togglePassword.textContent = "🙈";
 
     } else {
 
         loginPassword.type = "password";
-        togglePassword.textContent = "Show";
+        togglePassword.textContent = "👁";
 
     }
 
 });
 
 
-// ---------- LOGOUT ----------
+/* ================= LOGOUT ================= */
 
 logoutBtn.addEventListener("click", function () {
 
-    app.classList.add("hidden");
-    loginScreen.classList.remove("hidden");
+    showLandingPage();
 
     loginForm.reset();
 
@@ -189,22 +243,13 @@ logoutBtn.addEventListener("click", function () {
 });
 
 
-// ---------- NAVIGATION ----------
-
-const navItems =
-    document.querySelectorAll(".nav-item[data-page]");
+/* ================= NAVIGATION ================= */
 
 navItems.forEach(function (item) {
 
     item.addEventListener("click", function () {
 
         const page = item.dataset.page;
-
-        navItems.forEach(function (nav) {
-            nav.classList.remove("active");
-        });
-
-        item.classList.add("active");
 
         showPage(page);
 
@@ -213,34 +258,28 @@ navItems.forEach(function (item) {
 });
 
 
-// ---------- SHOW PAGE ----------
-
 function showPage(page) {
-
-    const dashboardPage =
-        document.getElementById("dashboardPage");
-
-    const employeesPage =
-        document.getElementById("employeesPage");
-
-    const departmentsPage =
-        document.getElementById("departmentsPage");
 
     dashboardPage.classList.add("hidden");
     employeesPage.classList.add("hidden");
     departmentsPage.classList.add("hidden");
 
+    navItems.forEach(function (item) {
+        item.classList.remove("active");
+    });
+
+
     if (page === "dashboard") {
 
         dashboardPage.classList.remove("hidden");
 
-        document.getElementById("pageTitle").textContent =
-            "Dashboard";
+        document
+            .querySelector('[data-page="dashboard"]')
+            .classList.add("active");
 
-        document.getElementById("pageSubtitle").textContent =
-            "Overview of your employee management system";
+        pageTitle.textContent = "Dashboard";
 
-        updateDashboard();
+        updateCharts();
 
     }
 
@@ -249,12 +288,14 @@ function showPage(page) {
 
         employeesPage.classList.remove("hidden");
 
-        document.getElementById("pageTitle").textContent =
-            "Employees";
+        document
+            .querySelector('[data-page="employees"]')
+            .classList.add("active");
 
-        document.getElementById("pageSubtitle").textContent =
-            "View and manage all employees";
+        pageTitle.textContent = "Employees";
 
+        updateEmployeeSummary();
+        populateDepartmentFilter();
         renderEmployees();
 
     }
@@ -264,11 +305,11 @@ function showPage(page) {
 
         departmentsPage.classList.remove("hidden");
 
-        document.getElementById("pageTitle").textContent =
-            "Departments";
+        document
+            .querySelector('[data-page="departments"]')
+            .classList.add("active");
 
-        document.getElementById("pageSubtitle").textContent =
-            "Manage employee departments";
+        pageTitle.textContent = "Departments";
 
         renderDepartments();
 
@@ -277,426 +318,163 @@ function showPage(page) {
 }
 
 
-// ---------- ADD EMPLOYEE BUTTON ----------
+/* ================= DATE ================= */
 
-document
-    .getElementById("addEmployeeBtn")
-    .addEventListener("click", function () {
+function updateDate() {
 
-        openAddEmployeeModal();
+    const now = new Date();
 
-    });
-
-
-document
-    .getElementById("dashboardAddBtn")
-    .addEventListener("click", function () {
-
-        openAddEmployeeModal();
-
-    });
-
-
-// ---------- OPEN ADD MODAL ----------
-
-function openAddEmployeeModal() {
-
-    employeeForm.reset();
-
-    editIndex.value = "";
-
-    employeeModalTitle.textContent =
-        "Add Employee";
-
-    clearErrors();
-
-    employeeModal.classList.remove("hidden");
-
-}
-
-
-// ---------- CLOSE MODALS ----------
-
-document
-    .querySelectorAll("[data-close]")
-    .forEach(function (button) {
-
-        button.addEventListener("click", function () {
-
-            const modalId =
-                button.dataset.close;
-
-            document
-                .getElementById(modalId)
-                .classList.add("hidden");
-
+    currentDate.textContent =
+        now.toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+            year: "numeric"
         });
 
+}
+
+updateDate();
+
+
+/* ================= EMPLOYEE SUMMARY ================= */
+
+function updateEmployeeSummary() {
+
+    const total = employees.length;
+
+    const active =
+        employees.filter(e => e.status === "Active").length;
+
+    const inactive =
+        employees.filter(e => e.status === "Inactive").length;
+
+    const departments =
+        new Set(employees.map(e => e.department)).size;
+
+
+    employeeTotalSummary.textContent = total;
+    employeeActiveSummary.textContent = active;
+    employeeInactiveSummary.textContent = inactive;
+    employeeDepartmentSummary.textContent = departments;
+
+}
+
+
+/* ================= DEPARTMENT FILTER ================= */
+
+function populateDepartmentFilter() {
+
+    const departments = [
+        ...new Set(
+            employees.map(employee => employee.department)
+        )
+    ];
+
+    departmentFilter.innerHTML =
+        `<option value="">All Departments</option>`;
+
+    departments.forEach(function (department) {
+
+        const option = document.createElement("option");
+
+        option.value = department;
+        option.textContent = department;
+
+        departmentFilter.appendChild(option);
+
     });
 
+}
 
-// ---------- CLOSE WHEN CLICKING OUTSIDE ----------
 
-employeeModal.addEventListener(
-    "click",
-    function (event) {
+/* ================= EMPLOYEE TABLE ================= */
 
-        if (event.target === employeeModal) {
-            employeeModal.classList.add("hidden");
-        }
+function renderEmployees() {
 
-    }
-);
+    const search =
+        employeeSearch.value.toLowerCase().trim();
 
+    const selectedDepartment =
+        departmentFilter.value;
 
-viewModal.addEventListener(
-    "click",
-    function (event) {
+    const selectedStatus =
+        statusFilter.value;
 
-        if (event.target === viewModal) {
-            viewModal.classList.add("hidden");
-        }
 
-    }
-);
+    const filteredEmployees =
+        employees.filter(function (employee) {
 
+            const fullName =
+                `${employee.firstName} ${employee.lastName}`
+                    .toLowerCase();
 
-// ---------- EMPLOYEE FORM SUBMIT ----------
+            const matchesSearch =
+                fullName.includes(search) ||
+                employee.email.toLowerCase().includes(search) ||
+                employee.position.toLowerCase().includes(search);
 
-employeeForm.addEventListener(
-    "submit",
-    function (event) {
+            const matchesDepartment =
+                !selectedDepartment ||
+                employee.department === selectedDepartment;
 
-        event.preventDefault();
-
-        if (!validateEmployeeForm()) {
-            return;
-        }
-
-        const employeeData = {
-
-            id: employeeId.value.trim(),
-
-            name: fullName.value.trim(),
-
-            email: email.value.trim(),
-
-            phone: phone.value.trim(),
-
-            department: department.value.trim(),
-
-            position: position.value.trim(),
-
-            salary: Number(salary.value),
-
-            joiningDate: joiningDate.value,
-
-            status: status.value
-
-        };
-
-
-        const index = editIndex.value;
-
-
-        // EDIT
-
-        if (index !== "") {
-
-            employees[Number(index)] =
-                employeeData;
-
-            showToast(
-                "Employee updated successfully!"
-            );
-
-        }
-
-        // ADD
-
-        else {
-
-            employees.push(employeeData);
-
-            showToast(
-                "Employee added successfully!"
-            );
-
-        }
-
-
-        employeeModal.classList.add("hidden");
-
-        employeeForm.reset();
-
-        renderEmployees();
-
-        updateDashboard();
-
-        renderDepartments();
-
-    }
-);
-
-
-// ---------- VALIDATION ----------
-
-function validateEmployeeForm() {
-
-    clearErrors();
-
-    let valid = true;
-
-
-    if (employeeId.value.trim() === "") {
-
-        setError(
-            "employeeIdError",
-            "Employee ID is required."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (fullName.value.trim() === "") {
-
-        setError(
-            "fullNameError",
-            "Full name is required."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (email.value.trim() === "") {
-
-        setError(
-            "emailError",
-            "Email is required."
-        );
-
-        valid = false;
-
-    } else if (!isValidEmail(email.value.trim())) {
-
-        setError(
-            "emailError",
-            "Enter a valid email."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (phone.value.trim() === "") {
-
-        setError(
-            "phoneError",
-            "Phone is required."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (department.value.trim() === "") {
-
-        setError(
-            "departmentError",
-            "Department is required."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (position.value.trim() === "") {
-
-        setError(
-            "positionError",
-            "Position is required."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (
-        salary.value === "" ||
-        Number(salary.value) <= 0
-    ) {
-
-        setError(
-            "salaryError",
-            "Enter a valid salary."
-        );
-
-        valid = false;
-
-    }
-
-
-    if (joiningDate.value === "") {
-
-        setError(
-            "joiningDateError",
-            "Joining date is required."
-        );
-
-        valid = false;
-
-    }
-
-
-    // UNIQUE EMPLOYEE ID
-
-    const currentIndex =
-        editIndex.value === ""
-            ? -1
-            : Number(editIndex.value);
-
-
-    const duplicate =
-        employees.some(function (employee, index) {
+            const matchesStatus =
+                !selectedStatus ||
+                employee.status === selectedStatus;
 
             return (
-                employee.id.toLowerCase() ===
-                employeeId.value
-                    .trim()
-                    .toLowerCase() &&
-                index !== currentIndex
+                matchesSearch &&
+                matchesDepartment &&
+                matchesStatus
             );
 
         });
 
-
-    if (duplicate) {
-
-        setError(
-            "employeeIdError",
-            "Employee ID already exists."
-        );
-
-        valid = false;
-
-    }
-
-
-    return valid;
-
-}
-
-
-// ---------- EMAIL VALIDATION ----------
-
-function isValidEmail(value) {
-
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        value
-    );
-
-}
-
-
-// ---------- SET ERROR ----------
-
-function setError(id, message) {
-
-    document.getElementById(id).textContent =
-        message;
-
-}
-
-
-// ---------- CLEAR ERRORS ----------
-
-function clearErrors() {
-
-    document
-        .querySelectorAll(".field-error")
-        .forEach(function (element) {
-
-            element.textContent = "";
-
-        });
-
-}
-
-
-// ---------- RENDER EMPLOYEES ----------
-
-function renderEmployees(list = employees) {
 
     employeeTableBody.innerHTML = "";
 
-    document.getElementById(
-        "employeeCountText"
-    ).textContent = list.length;
 
+    if (filteredEmployees.length === 0) {
 
-    document.getElementById(
-        "employeeBadge"
-    ).textContent = employees.length;
-
-
-    if (list.length === 0) {
-
-        document
-            .getElementById("emptyEmployees")
-            .classList.remove("hidden");
+        emptyEmployees.classList.remove("hidden");
 
         return;
 
     }
 
-
-    document
-        .getElementById("emptyEmployees")
-        .classList.add("hidden");
+    emptyEmployees.classList.add("hidden");
 
 
-    list.forEach(function (employee) {
+    filteredEmployees.forEach(function (employee) {
 
-        const originalIndex =
-            employees.indexOf(employee);
+        const row = document.createElement("tr");
 
-
-        const row =
-            document.createElement("tr");
+        const initials =
+            `${employee.firstName[0]}${employee.lastName[0]}`
+                .toUpperCase();
 
 
         row.innerHTML = `
 
             <td>
-                <strong>${employee.id}</strong>
-            </td>
-
-
-            <td>
                 <div class="employee-name">
 
-                    <strong>
-                        ${employee.name}
-                    </strong>
+                    <div class="employee-avatar">
+                        ${initials}
+                    </div>
 
-                    <small>
-                        ${employee.email}
-                    </small>
+                    <div>
+                        <strong>
+                            ${employee.firstName}
+                            ${employee.lastName}
+                        </strong>
+
+                        <span>
+                            ${employee.email}
+                        </span>
+                    </div>
 
                 </div>
-            </td>
-
-
-            <td>
-                ${employee.phone}
             </td>
 
 
@@ -711,26 +489,14 @@ function renderEmployees(list = employees) {
 
 
             <td>
-                Rs. ${formatNumber(employee.salary)}
+                ${formatCurrency(employee.salary)}
             </td>
 
 
             <td>
-                ${formatDate(employee.joiningDate)}
-            </td>
-
-
-            <td>
-
-                <span class="
-                    status
-                    ${employee.status.toLowerCase()}
-                ">
-
+                <span class="status ${employee.status.toLowerCase()}">
                     ${employee.status}
-
                 </span>
-
             </td>
 
 
@@ -739,29 +505,24 @@ function renderEmployees(list = employees) {
                 <div class="action-buttons">
 
                     <button
-                        class="icon-btn"
-                        title="View"
-                        onclick="viewEmployee(${originalIndex})"
+                        class="action-btn"
+                        onclick="viewEmployee(${employee.id})"
                     >
-                        👁
+                        View
                     </button>
 
-
                     <button
-                        class="icon-btn"
-                        title="Edit"
-                        onclick="editEmployee(${originalIndex})"
+                        class="action-btn"
+                        onclick="editEmployee(${employee.id})"
                     >
-                        ✎
+                        Edit
                     </button>
 
-
                     <button
-                        class="icon-btn"
-                        title="Delete"
-                        onclick="deleteEmployee(${originalIndex})"
+                        class="action-btn delete"
+                        onclick="openDeleteModal(${employee.id})"
                     >
-                        🗑
+                        Delete
                     </button>
 
                 </div>
@@ -770,7 +531,6 @@ function renderEmployees(list = employees) {
 
         `;
 
-
         employeeTableBody.appendChild(row);
 
     });
@@ -778,468 +538,961 @@ function renderEmployees(list = employees) {
 }
 
 
-// ---------- SEARCH ----------
+/* ================= SEARCH / FILTER ================= */
 
-searchInput.addEventListener(
+employeeSearch.addEventListener(
     "input",
-    function () {
+    renderEmployees
+);
 
-        const search =
-            searchInput.value
-                .trim()
-                .toLowerCase();
+departmentFilter.addEventListener(
+    "change",
+    renderEmployees
+);
 
-
-        const filtered =
-            employees.filter(function (employee) {
-
-                return (
-
-                    employee.id
-                        .toLowerCase()
-                        .includes(search)
-
-                    ||
-
-                    employee.name
-                        .toLowerCase()
-                        .includes(search)
-
-                    ||
-
-                    employee.email
-                        .toLowerCase()
-                        .includes(search)
-
-                    ||
-
-                    employee.department
-                        .toLowerCase()
-                        .includes(search)
-
-                    ||
-
-                    employee.position
-                        .toLowerCase()
-                        .includes(search)
-
-                );
-
-            });
-
-
-        renderEmployees(filtered);
-
-    }
+statusFilter.addEventListener(
+    "change",
+    renderEmployees
 );
 
 
-// ---------- VIEW EMPLOYEE ----------
+/* ================= FORMAT CURRENCY ================= */
 
-function viewEmployee(index) {
+function formatCurrency(amount) {
+
+    return new Intl.NumberFormat("en-PK", {
+        style: "currency",
+        currency: "PKR",
+        maximumFractionDigits: 0
+    }).format(amount);
+
+}
+
+
+/* ================= ADD EMPLOYEE ================= */
+
+addEmployeeBtn.addEventListener(
+    "click",
+    openAddEmployeeModal
+);
+
+employeeQuickAddBtn.addEventListener(
+    "click",
+    openAddEmployeeModal
+);
+
+
+function openAddEmployeeModal() {
+
+    employeeForm.reset();
+
+    employeeId.value = "";
+
+    modalTitle.textContent = "Add Employee";
+
+    employeeStatus.value = "Active";
+
+    employeeModal.classList.remove("hidden");
+
+}
+
+
+/* ================= CLOSE EMPLOYEE MODAL ================= */
+
+closeEmployeeModal.addEventListener(
+    "click",
+    closeEmployeeForm
+);
+
+cancelEmployeeModal.addEventListener(
+    "click",
+    closeEmployeeForm
+);
+
+
+function closeEmployeeForm() {
+
+    employeeModal.classList.add("hidden");
+
+}
+
+
+/* ================= SAVE EMPLOYEE ================= */
+
+employeeForm.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+
+    const id = employeeId.value;
+
+
+    const employeeData = {
+
+        firstName: firstName.value.trim(),
+
+        lastName: lastName.value.trim(),
+
+        email: employeeEmail.value.trim(),
+
+        phone: employeePhone.value.trim(),
+
+        department: employeeDepartment.value,
+
+        position: employeePosition.value.trim(),
+
+        salary: Number(employeeSalary.value),
+
+        status: employeeStatus.value,
+
+        joiningDate: employeeJoiningDate.value,
+
+        performance: Math.floor(
+            Math.random() * 30 + 70
+        )
+
+    };
+
+
+    if (id) {
+
+        const index =
+            employees.findIndex(
+                employee => employee.id == id
+            );
+
+        if (index !== -1) {
+
+            employees[index] = {
+                ...employees[index],
+                ...employeeData
+            };
+
+        }
+
+        showToast("Employee updated successfully.");
+
+    } else {
+
+        employeeData.id =
+            Date.now();
+
+        employees.push(employeeData);
+
+        showToast("Employee added successfully.");
+
+    }
+
+
+    closeEmployeeForm();
+
+    updateEmployeeSummary();
+
+    populateDepartmentFilter();
+
+    renderEmployees();
+
+    updateCharts();
+
+});
+
+
+/* ================= EDIT EMPLOYEE ================= */
+
+function editEmployee(id) {
 
     const employee =
-        employees[index];
+        employees.find(
+            employee => employee.id === id
+        );
+
+    if (!employee) return;
 
 
-    const viewDetails =
-        document.getElementById("viewDetails");
+    employeeId.value = employee.id;
+
+    firstName.value = employee.firstName;
+    lastName.value = employee.lastName;
+    employeeEmail.value = employee.email;
+    employeePhone.value = employee.phone;
+
+    employeeDepartment.value =
+        employee.department;
+
+    employeePosition.value =
+        employee.position;
+
+    employeeSalary.value =
+        employee.salary;
+
+    employeeStatus.value =
+        employee.status;
+
+    employeeJoiningDate.value =
+        employee.joiningDate;
 
 
-    viewDetails.innerHTML = `
+    modalTitle.textContent =
+        "Edit Employee";
 
-        <div class="detail-box">
+    employeeModal.classList.remove("hidden");
 
-            <span>Employee ID</span>
-
-            <strong>
-                ${employee.id}
-            </strong>
-
-        </div>
+}
 
 
-        <div class="detail-box">
+/* ================= VIEW EMPLOYEE ================= */
 
-            <span>Full Name</span>
+function viewEmployee(id) {
 
-            <strong>
-                ${employee.name}
-            </strong>
+    const employee =
+        employees.find(
+            employee => employee.id === id
+        );
 
-        </div>
-
-
-        <div class="detail-box">
-
-            <span>Email</span>
-
-            <strong>
-                ${employee.email}
-            </strong>
-
-        </div>
+    if (!employee) return;
 
 
-        <div class="detail-box">
+    employeeDetails.innerHTML = `
 
-            <span>Phone</span>
+        <div class="employee-details">
 
-            <strong>
-                ${employee.phone}
-            </strong>
+            <div class="detail-row">
+                <span>Name</span>
+                <strong>
+                    ${employee.firstName}
+                    ${employee.lastName}
+                </strong>
+            </div>
 
-        </div>
+            <div class="detail-row">
+                <span>Email</span>
+                <strong>${employee.email}</strong>
+            </div>
 
+            <div class="detail-row">
+                <span>Phone</span>
+                <strong>${employee.phone || "N/A"}</strong>
+            </div>
 
-        <div class="detail-box">
+            <div class="detail-row">
+                <span>Department</span>
+                <strong>${employee.department}</strong>
+            </div>
 
-            <span>Department</span>
+            <div class="detail-row">
+                <span>Position</span>
+                <strong>${employee.position}</strong>
+            </div>
 
-            <strong>
-                ${employee.department}
-            </strong>
+            <div class="detail-row">
+                <span>Salary</span>
+                <strong>
+                    ${formatCurrency(employee.salary)}
+                </strong>
+            </div>
 
-        </div>
+            <div class="detail-row">
+                <span>Status</span>
+                <strong>${employee.status}</strong>
+            </div>
 
+            <div class="detail-row">
+                <span>Joining Date</span>
+                <strong>${employee.joiningDate}</strong>
+            </div>
 
-        <div class="detail-box">
-
-            <span>Position</span>
-
-            <strong>
-                ${employee.position}
-            </strong>
-
-        </div>
-
-
-        <div class="detail-box">
-
-            <span>Salary</span>
-
-            <strong>
-                Rs. ${formatNumber(employee.salary)}
-            </strong>
-
-        </div>
-
-
-        <div class="detail-box">
-
-            <span>Joining Date</span>
-
-            <strong>
-                ${formatDate(employee.joiningDate)}
-            </strong>
-
-        </div>
-
-
-        <div class="detail-box">
-
-            <span>Status</span>
-
-            <strong>
-                ${employee.status}
-            </strong>
+            <div class="detail-row">
+                <span>Performance</span>
+                <strong>${employee.performance}%</strong>
+            </div>
 
         </div>
 
     `;
 
 
-    viewModal.classList.remove("hidden");
+    viewEmployeeModal.classList.remove("hidden");
 
 }
 
 
-// ---------- EDIT EMPLOYEE ----------
+/* ================= CLOSE VIEW MODAL ================= */
 
-function editEmployee(index) {
+closeViewModal.addEventListener(
+    "click",
+    function () {
 
-    const employee =
-        employees[index];
+        viewEmployeeModal.classList.add("hidden");
 
-
-    employeeModalTitle.textContent =
-        "Edit Employee";
-
-
-    editIndex.value = index;
+    }
+);
 
 
-    employeeId.value =
-        employee.id;
+/* ================= DELETE ================= */
 
-    fullName.value =
-        employee.name;
+function openDeleteModal(id) {
 
-    email.value =
-        employee.email;
+    employeeToDelete = id;
 
-    phone.value =
-        employee.phone;
-
-    department.value =
-        employee.department;
-
-    position.value =
-        employee.position;
-
-    salary.value =
-        employee.salary;
-
-    joiningDate.value =
-        employee.joiningDate;
-
-    status.value =
-        employee.status;
-
-
-    clearErrors();
-
-
-    employeeModal.classList.remove(
-        "hidden"
-    );
+    deleteModal.classList.remove("hidden");
 
 }
 
 
-// ---------- DELETE EMPLOYEE ----------
+cancelDelete.addEventListener(
+    "click",
+    function () {
 
-function deleteEmployee(index) {
+        employeeToDelete = null;
 
-    const employee =
-        employees[index];
+        deleteModal.classList.add("hidden");
+
+    }
+);
 
 
-    const confirmDelete =
-        confirm(
-            `Are you sure you want to delete ${employee.name}?`
+confirmDelete.addEventListener(
+    "click",
+    function () {
+
+        if (employeeToDelete === null) return;
+
+
+        employees =
+            employees.filter(
+                employee =>
+                    employee.id !== employeeToDelete
+            );
+
+
+        employeeToDelete = null;
+
+        deleteModal.classList.add("hidden");
+
+        updateEmployeeSummary();
+
+        populateDepartmentFilter();
+
+        renderEmployees();
+
+        updateCharts();
+
+        showToast("Employee deleted successfully.");
+
+    }
+);
+
+
+/* ================= DEPARTMENTS ================= */
+
+function renderDepartments() {
+
+    const departmentsContainer =
+        document.getElementById(
+            "departmentsContainer"
         );
 
 
-    if (!confirmDelete) {
+    const departmentList = [
+
+        {
+            name: "Engineering",
+            icon: "⌘",
+            description: "Software and technology team."
+        },
+
+        {
+            name: "Design",
+            icon: "✦",
+            description: "Creative and user experience team."
+        },
+
+        {
+            name: "Marketing",
+            icon: "◈",
+            description: "Marketing and brand growth team."
+        },
+
+        {
+            name: "Human Resources",
+            icon: "♙",
+            description: "People and employee relations team."
+        },
+
+        {
+            name: "Finance",
+            icon: "$",
+            description: "Finance and accounting team."
+        },
+
+        {
+            name: "Sales",
+            icon: "↗",
+            description: "Sales and business development team."
+        }
+
+    ];
+
+
+    departmentsContainer.innerHTML = "";
+
+
+    departmentList.forEach(function (department) {
+
+        const count =
+            employees.filter(
+                employee =>
+                    employee.department === department.name
+            ).length;
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "department-card";
+
+
+        card.innerHTML = `
+
+            <div class="department-icon">
+                ${department.icon}
+            </div>
+
+            <h3>${department.name}</h3>
+
+            <p>
+                ${department.description}
+            </p>
+
+            <div class="department-count">
+                <strong>${count}</strong>
+                employee${count !== 1 ? "s" : ""}
+            </div>
+
+        `;
+
+
+        departmentsContainer.appendChild(card);
+
+    });
+
+}
+
+
+/* ================= CHARTS ================= */
+
+function updateCharts() {
+
+    if (typeof Chart === "undefined") {
         return;
     }
 
 
-    employees.splice(index, 1);
+    /* ---------- WORKFORCE ---------- */
+
+    const workforceCanvas =
+        document.getElementById(
+            "workforceChart"
+        );
 
 
-    renderEmployees();
-
-    updateDashboard();
-
-    renderDepartments();
+    if (workforceChart) {
+        workforceChart.destroy();
+    }
 
 
-    showToast(
-        "Employee deleted successfully!"
-    );
+    workforceChart =
+        new Chart(
+            workforceCanvas,
+            {
+
+                type: "line",
+
+                data: {
+
+                    labels: [
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "Jun",
+                        "Jul",
+                        "Aug"
+                    ],
+
+                    datasets: [
+                        {
+                            label: "Employees",
+
+                            data: [
+                                12,
+                                14,
+                                15,
+                                17,
+                                18,
+                                20,
+                                employees.length,
+                                employees.length
+                            ],
+
+                            borderWidth: 3,
+
+                            tension: .4,
+
+                            fill: false,
+
+                            borderColor: "#8b6df5",
+
+                            pointBackgroundColor:
+                                "#8b6df5",
+
+                            pointRadius: 4
+
+                        }
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+                            grid: {
+                                color:
+                                    "rgba(255,255,255,.05)"
+                            },
+
+                            ticks: {
+                                color: "#858092"
+                            }
+                        },
+
+                        y: {
+                            beginAtZero: true,
+
+                            grid: {
+                                color:
+                                    "rgba(255,255,255,.05)"
+                            },
+
+                            ticks: {
+                                color: "#858092"
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    /* ---------- DEPARTMENT ---------- */
+
+    const departmentCanvas =
+        document.getElementById(
+            "departmentChart"
+        );
+
+
+    if (departmentChart) {
+        departmentChart.destroy();
+    }
+
+
+    const departments = [
+        "Engineering",
+        "Design",
+        "Marketing",
+        "Human Resources",
+        "Finance",
+        "Sales"
+    ];
+
+
+    const departmentCounts =
+        departments.map(
+            department =>
+                employees.filter(
+                    employee =>
+                        employee.department === department
+                ).length
+        );
+
+
+    departmentChart =
+        new Chart(
+            departmentCanvas,
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: departments,
+
+                    datasets: [
+                        {
+                            data: departmentCounts,
+
+                            backgroundColor: [
+                                "#8b6df5",
+                                "#6f8df7",
+                                "#56c5a8",
+                                "#e9b45d",
+                                "#e36d92",
+                                "#62a8d8"
+                            ],
+
+                            borderWidth: 0
+
+                        }
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    cutout: "68%",
+
+                    plugins: {
+
+                        legend: {
+                            position: "bottom",
+
+                            labels: {
+                                color: "#aaa4b4",
+                                boxWidth: 10,
+                                padding: 14,
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    /* ---------- PAYROLL ---------- */
+
+    const payrollCanvas =
+        document.getElementById(
+            "payrollChart"
+        );
+
+
+    if (payrollChart) {
+        payrollChart.destroy();
+    }
+
+
+    const totalPayroll =
+        employees.reduce(
+            (total, employee) =>
+                total + Number(employee.salary),
+            0
+        );
+
+
+    payrollChart =
+        new Chart(
+            payrollCanvas,
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels: [
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "Jun"
+                    ],
+
+                    datasets: [
+
+                        {
+                            label: "Payroll",
+
+                            data: [
+                                totalPayroll * .72,
+                                totalPayroll * .78,
+                                totalPayroll * .83,
+                                totalPayroll * .88,
+                                totalPayroll * .94,
+                                totalPayroll
+                            ],
+
+                            backgroundColor:
+                                "#8064e9",
+
+                            borderRadius: 6,
+
+                            borderSkipped: false
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+                            grid: {
+                                display: false
+                            },
+
+                            ticks: {
+                                color: "#858092"
+                            }
+
+                        },
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            grid: {
+                                color:
+                                    "rgba(255,255,255,.05)"
+                            },
+
+                            ticks: {
+                                color: "#858092",
+
+                                callback: function (value) {
+                                    return "₨" +
+                                        (value / 1000)
+                                            .toFixed(0) +
+                                        "k";
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    /* ---------- PERFORMANCE ---------- */
+
+    const performanceCanvas =
+        document.getElementById(
+            "performanceChart"
+        );
+
+
+    if (performanceChart) {
+        performanceChart.destroy();
+    }
+
+
+    const performanceData = [
+        employees.filter(e => e.performance >= 90).length,
+        employees.filter(e =>
+            e.performance >= 80 &&
+            e.performance < 90
+        ).length,
+        employees.filter(e =>
+            e.performance >= 70 &&
+            e.performance < 80
+        ).length,
+        employees.filter(e =>
+            e.performance < 70
+        ).length
+    ];
+
+
+    performanceChart =
+        new Chart(
+            performanceCanvas,
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels: [
+                        "Excellent",
+                        "Good",
+                        "Average",
+                        "Needs Improvement"
+                    ],
+
+                    datasets: [
+
+                        {
+                            label: "Employees",
+
+                            data: performanceData,
+
+                            backgroundColor: [
+                                "#6bc59d",
+                                "#8b6df5",
+                                "#e6b65b",
+                                "#df6c75"
+                            ],
+
+                            borderRadius: 6
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            display: false
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+                            grid: {
+                                display: false
+                            },
+
+                            ticks: {
+                                color: "#858092"
+                            }
+
+                        },
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+                                color: "#858092",
+                                stepSize: 1
+                            },
+
+                            grid: {
+                                color:
+                                    "rgba(255,255,255,.05)"
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
 
 }
 
 
-// ---------- DASHBOARD ----------
+/* ================= THEME ================= */
 
-function updateDashboard() {
+dashboardThemeToggle.addEventListener(
+    "click",
+    function () {
 
-    const total =
-        employees.length;
-
-
-    const active =
-        employees.filter(function (employee) {
-
-            return employee.status === "Active";
-
-        }).length;
-
-
-    const inactive =
-        employees.filter(function (employee) {
-
-            return employee.status === "Inactive";
-
-        }).length;
-
-
-    const departments =
-        new Set(
-            employees.map(function (employee) {
-
-                return employee.department;
-
-            })
-        ).size;
-
-
-    document.getElementById(
-        "totalEmployees"
-    ).textContent = total;
-
-
-    document.getElementById(
-        "activeEmployees"
-    ).textContent = active;
-
-
-    document.getElementById(
-        "inactiveEmployees"
-    ).textContent = inactive;
-
-
-    document.getElementById(
-        "totalDepartments"
-    ).textContent = departments;
-
-
-    document.getElementById(
-        "departmentBadge"
-    ).textContent = departments;
-
-}
-
-
-// ---------- DEPARTMENTS ----------
-
-function renderDepartments() {
-
-    const departmentGrid =
-        document.getElementById(
-            "departmentGrid"
+        dashboardPage.classList.toggle(
+            "dashboard-light"
         );
 
 
-    const departmentOptions =
-        document.getElementById(
-            "departmentOptions"
-        );
-
-
-    departmentGrid.innerHTML = "";
-
-    departmentOptions.innerHTML = "";
-
-
-    const departmentMap = {};
-
-
-    employees.forEach(function (employee) {
-
-        if (!departmentMap[employee.department]) {
-
-            departmentMap[
-                employee.department
-            ] = 0;
-
-        }
-
-        departmentMap[
-            employee.department
-        ]++;
-
-    });
-
-
-    Object.keys(departmentMap)
-        .forEach(function (dept) {
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "department-card";
-
-
-            card.innerHTML = `
-
-                <div class="dept-icon">
-                    ▤
-                </div>
-
-                <h3>
-                    ${dept}
-                </h3>
-
-                <p>
-                    Employees working in this department
-                </p>
-
-                <span class="dept-count">
-
-                    ${departmentMap[dept]}
-                    Employee(s)
-
-                </span>
-
-            `;
-
-
-            departmentGrid.appendChild(card);
-
-
-            const option =
-                document.createElement("option");
-
-            option.value = dept;
-
-            departmentOptions.appendChild(
-                option
+        const isLight =
+            dashboardPage.classList.contains(
+                "dashboard-light"
             );
 
-        });
 
-
-    if (
-        Object.keys(departmentMap).length === 0
-    ) {
-
-        departmentGrid.innerHTML = `
-            <div class="empty-state">
-                No departments found.
-            </div>
-        `;
+        dashboardThemeToggle.textContent =
+            isLight
+                ? "☾ Dark"
+                : "☀ Light";
 
     }
-
-}
-
-
-// ---------- FORMAT NUMBER ----------
-
-function formatNumber(number) {
-
-    return Number(number).toLocaleString(
-        "en-PK"
-    );
-
-}
+);
 
 
-// ---------- FORMAT DATE ----------
+employeeThemeToggle.addEventListener(
+    "click",
+    function () {
 
-function formatDate(date) {
+        employeesPage.classList.toggle(
+            "employees-dark"
+        );
 
-    if (!date) {
-        return "-";
+
+        const isDark =
+            employeesPage.classList.contains(
+                "employees-dark"
+            );
+
+
+        employeeThemeToggle.textContent =
+            isDark
+                ? "☀ Light"
+                : "☾ Dark";
+
     }
+);
 
 
-    const parts =
-        date.split("-");
-
-
-    return `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-}
-
-
-// ---------- TOAST MESSAGE ----------
+/* ================= TOAST ================= */
 
 function showToast(message) {
 
@@ -1257,9 +1510,13 @@ function showToast(message) {
 }
 
 
-// ---------- INITIAL DATA ----------
+/* ================= INITIALIZE ================= */
 
-updateDashboard();
+showLandingPage();
+
+updateEmployeeSummary();
+
+populateDepartmentFilter();
 
 renderEmployees();
 
