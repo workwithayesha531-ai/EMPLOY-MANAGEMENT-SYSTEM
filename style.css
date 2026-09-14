@@ -1372,3 +1372,18 @@ td {
         width: 100%;
     }
 }
+.landing-preview{
+    width :100%;
+    justify-content:center;
+    display:flex;
+    align-items:center;
+    margin-top:30px;
+
+}
+.landing-preview img{
+    width:500px;
+    max-width:90%;
+    height:auto;
+    border-radius:15px;
+    display:block;
+}
